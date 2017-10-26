@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Recebedor de notificações</title>
+</head>
+<body>
+  <script src="http://localhost:4555/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io('http://localhost:4555', {transports: ['websocket', 'polling', 'flashsocket']});
+    socket.on('notificacao', function (data) {
+      notifica(data);
+    });
+
+    function notifica(valor){
+        if (!("Notification" in window)) {
+            alert("Seu navegador não aceita notificação");
+        } 
+        else if (Notification.permission === "granted") {    
+            console.log("a");
+            var notification = new Notification(valor);
+        } 
+        else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function (permission) {
+            console.log("b");
+            if (permission === "granted") {
+                console.log("c");
+                var notification = new Notification(valor);
+            }
+        });
+        }
+    }
+    
+
+  </script>
+  <div id="messagebox">
+  </div>
+</body>
+</html>
