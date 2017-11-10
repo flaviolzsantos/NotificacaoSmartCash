@@ -20,10 +20,11 @@ cron.schedule('10,20,30,40,50,59 * * * *', function(){
 });
 
 function consomeApi(){
-    request('https://bravenewcoin.com/api/v2/d1/smart/smart_index_summary_d1.json', function (error, response, body) {
-        if (!error && response.statusCode == 200) {            
-            var ret = JSON.parse(body);
-            io.emit('notificacao', ret.gwa);
+    request('https://api.coinmarketcap.com/v1/ticker/smartcash/', function (error, response, body) {
+        if (!error && response.statusCode == 200) {                        
+            var json = JSON.parse(body)[0];
+            var ret = {"Preco" : json.price_usd, "BTC" : json.price_btc};
+            io.emit('notificacao', ret);
          }
     })
 };

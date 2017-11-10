@@ -16,9 +16,13 @@
         if (!("Notification" in window)) {
             alert("Seu navegador não aceita notificação");
         } 
-        else if (Notification.permission === "granted") {    
-            console.log("a");
-            var notification = new Notification(valor);
+        else if (Notification.permission === "granted") {                
+            var options = {
+              body: "Preço " + valor.Preco,
+              icon: "icon.jpg",
+              dir : "ltr"
+          };
+            var notification = new Notification("BTC : " + valor.BTC, options);
         } 
         else if (Notification.permission !== "denied") {
         Notification.requestPermission(function (permission) {
